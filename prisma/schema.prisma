@@ -30,52 +30,62 @@ model Post {
 // }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id          Int @id @default(autoincrement())
+  email       String  @unique
+  name        String?
+  posts       Post[]
 }
 
-model BakedGoods {
-  id      Int @default(autoincrement()) @id
-  name    String @unique
-  type    String
-  category String
+model Goods {
+  @@map(name: "goods")
+  id          Int @id @default(autoincrement()) 
+  name        String @unique
+  type        String
+  category    String
   ingridients Ingridient[]
-  price Int
+  sales       Sales[]
+  price       Float
 }
 
 model Ingridient {
-  id      Int @default(autoincrement()) @id
-  name    String @unique
-  allergen  Boolean
-  vegan     Boolean
+  @@map(name: "ingridients")
+  id          Int @id @default(autoincrement()) 
+  name        String @unique
+  allergen    Boolean
+  vegan       Boolean
   vegetarian  Boolean
-  foodstuff    BakedGoods  @relation(fields: [test], references: [id])
-  test Int @unique
+  goods       Goods?  @relation(fields: [goods_id], references: [id])
+  goods_id    Int?
 }
 
 model Stuff {
-  id      Int @default(autoincrement()) @id
+  id          Int @default(autoincrement()) @id
   firstName   String
   lastName    String
   role        String
-  duties      Duties[]    
+  duties      Duty[]    
 }
 
-model Duties {
-  id      Int @default(autoincrement()) @id
-  task    String
-  stuff   Stuff @relation(fields: [id], references: [id])
+model Duty {
+  id          Int @id @default(autoincrement()) 
+  task        String  
+  stuff       Stuff[]
 }
 
 model Supplier {
-  id      Int @default(autoincrement()) @id
+  id          Int @id @default(autoincrement())
+  name        String
+  contact     String
+  email       String
+  phone_num   String
+  address     String   
 }
 
 model Sales {
-  id      Int @default(autoincrement()) @id
-  date    DateTime
+  id          Int @id @default(autoincrement()) 
+  date        DateTime @default(now())
+  item        Goods? @relation(fields: [item_id], references: [id])
+  item_id     Int?
 }
 
 
