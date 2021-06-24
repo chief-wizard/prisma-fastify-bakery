@@ -68,7 +68,7 @@ model Stuff {
 
 model Duty {
   id          Int @id @default(autoincrement()) 
-  task        String  
+  task        String  @unique
   stuff       Stuff[]
 }
 

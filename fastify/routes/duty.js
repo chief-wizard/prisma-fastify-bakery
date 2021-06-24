@@ -48,6 +48,43 @@ async function routes (fastify, options) {
         })
         res.send(list)
     })
+
+    // send {"task":"Cleaning"}
+    fastify.post('/duty', async(req, res) => {
+        let taskExisits = req.body;
+        // findUnique only works for unique fields
+        let record = await duty.findUnique({
+            select: {
+                id: true,
+                task: true,
+                stuff: true
+            },
+            where: taskExisits
+        })
+        res.send(record)
+    })
+
+    fastify.post('/duty/add', async(req, res) => {
+        let query = req.body;
+
+    
+        let message = "Entry already exist"
+        // findUnique only works for unique fields
+        let record = await duty.findUnique({
+            select: {
+                id: true,
+            },
+            where: query
+        })
+ 
+        if (record){
+            res.code(400).send({message: 'record already exists'})
+        } 
+        
+        let newTask = await duty.create({data: query})
+
+        res.send(newTask)        
+    })
 }
     
 module.exports = routes
