@@ -22,7 +22,7 @@ async function routes (fastify, options) {
     })
 
     // create
-    fastify.post('/goods/add', async (req, res) => {
+    fastify.post('/goods', async (req, res) => {
         let addGood = req.body;
 
         const goodExists = await goods.findUnique({
