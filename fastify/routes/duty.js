@@ -63,7 +63,7 @@ async function routes (fastify, options) {
         })
         res.send(record)
     })
-
+    
     fastify.post('/duty/add', async(req, res) => {
         let query = req.body;
 
