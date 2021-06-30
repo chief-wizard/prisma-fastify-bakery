@@ -1,21 +1,33 @@
-# prisma-fastify-bakery
+# Bakery App with Prisma and Fastify
 
-# Fastify server that automatically loads in all plugins from the plugins directory:
-https://github.com/fastify/fastify-autoload
+A sample app for managing a bakery with [Prisma](https://www.prisma.io)
+and [Fastify](https://www.fastify.io).
 
-# build new schema
-npx prisma migrate dev --name init
+## Running the app
 
-# start studio
-npx prisma studio
+1. Build the database schema:
 
-# run server
-npm run dev
+		npx prisma migrate dev --name init
+    
+2. Start Prisma Studio:
 
-# rest api calls
-http://localhost:3000/duty
-http://localhost:3000/goods
-http://localhost:3000/ingridients
-http://localhost:3000/sales
-http://localhost:3000/stuff
-http://localhost:3000/supplier
+		npx prisma studio
+		
+3. Run the server in development mode:
+
+		npm run dev
+
+## Set up autoloading for the app’s components
+
+If you’d like your development environment to automatically load all plugins from the plugins directory, check out [`fastify-autoload`](https://github.com/fastify/fastify-autoload).
+
+## REST API endpoints that the app exposes by default
+
+Base URL: `http://localhost:3000`
+
+Duties: `/duty`
+Goods: `/goods`
+Ingredients: `/ingredients`
+Sales: `/sales`
+Staff: `/staff`
+Suppliers: `/supplier`
