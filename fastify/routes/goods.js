@@ -31,13 +31,19 @@ async function routes (fastify, options) {
             }
         })
 
+        // check if the record exists based on the name param, which is unique
+        // if it doesn't create a new one
         if(!goodExists){
             let newGood = await goods.create({
                 data: addGood
             })
+
+            res.send(newGood);
+        // otherwise send a message that it already exists.
+        } else {
+            res.code(400).send({message: 'record already exists'})            
         }
         
-        res.code(400).send({message: 'record already exists'})
     })
 
     // update
@@ -77,6 +83,59 @@ async function routes (fastify, options) {
                 
         res.send(deletedGood)
     })
+
+
+    //adds ingriend to the good
+
+    // ingridients param should be an array of objects [{id:2}, {id:3} ...]
+    fastify.post('/goods/ingridients', async (req, res) => {
+        let goodsData = req.body;
+
+
+
+        let goodToUpdate = await goods.update({
+            where: {
+                id: goodsData.id
+            },
+            data: {
+                ingridients: {
+                    connect: goodsData.ingridients
+                }
+            },
+            include: {
+                ingridients: true
+            }
+        })
+
+        res.send(goodToUpdate);
+    })
+
+
+    // ingridients param should be an array of objects [{id:2}, {id:3} ...]
+    // {"id": 1, "ingridients": [{"id": 23}, {"id":24}]}
+    fastify.delete('/goods/ingridients', async (req, res) => {
+        let goodsData = req.body;
+
+
+
+        let goodToDelete = await goods.update({
+            where: {
+                id: goodsData.id
+            },
+            data: {
+                ingridients: {
+                    disconnect: goodsData.ingridients
+                }
+            },
+            include: {
+                ingridients: true
+            }
+        })
+
+        res.send(goodToDelete);
+    })
+
+
   }
     
   module.exports = routes
