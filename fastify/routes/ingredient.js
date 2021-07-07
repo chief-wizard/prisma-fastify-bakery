@@ -1,12 +1,12 @@
 const { PrismaClient } = require("@prisma/client")
 
-const { ingridient } = new PrismaClient()
+const { ingredient } = new PrismaClient()
 
 async function routes (fastify, options) {
 
-    // get all the ingridients
-    fastify.get('/ingridients', async (req, res) => {
-        const ingridientsList = await ingridient.findMany({
+    // get all the ingredients
+    fastify.get('/ingredients', async (req, res) => {
+        const ingredientsList = await ingredient.findMany({
             select: {
                 id: true,
                 name: true,
@@ -14,25 +14,25 @@ async function routes (fastify, options) {
                 vegan: true,
                 vegetarian: true,
                 goods: true,
-                goods_id: true
+                good_id: true
             }
         })
         
-        res.send(ingridientsList)
+        res.send(ingredientsList)
     })
 
     // create
-    fastify.post('/ingridients', async (req, res) => {
+    fastify.post('/ingredients', async (req, res) => {
         let addIngridient = req.body;
 
-        const ingridientExists = await ingridient.findUnique({
+        const ingredientExists = await ingredient.findUnique({
             where: {
                 name: addIngridient.name
             }
         })
 
-        if(!ingridientExists){
-            let newIngridient = await ingridient.create({
+        if(!ingredientExists){
+            let newIngridient = await ingredient.create({
                 data: addIngridient
             })
 
@@ -43,10 +43,10 @@ async function routes (fastify, options) {
     })
 
     // update
-    fastify.put('/ingridients', async (req, res) => {
+    fastify.put('/ingredients', async (req, res) => {
         let { id, name, type, allergen, vegan, vegetarian, goods } = req.body;
 
-        const updatedGood = await ingridient.update({
+        const updatedGood = await ingredient.update({
            where: {
             "id": id
            },
@@ -65,10 +65,10 @@ async function routes (fastify, options) {
     })
 
     // delete
-    fastify.delete('/ingridients', async (req, res) => {
+    fastify.delete('/ingredients', async (req, res) => {
         let goodsId = req.body;
 
-        const deletedGood = await ingridient.delete({
+        const deletedGood = await ingredient.delete({
             where: goodsId
         })
                 

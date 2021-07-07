@@ -10,29 +10,29 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Goods {
+model Good {
   @@map(name: "goods")
   id          Int @id @default(autoincrement()) 
   name        String @unique
   type        String
   category    String
-  ingridients Ingridient[]
-  sales       Sales[]
+  ingredients Ingredient[]
+  sales       Sale[]
   price       Float
 }
 
-model Ingridient {
-  @@map(name: "ingridients")
+model Ingredient {
+  @@map(name: "ingredients")
   id          Int @id @default(autoincrement()) 
   name        String @unique
   allergen    Boolean
   vegan       Boolean
   vegetarian  Boolean
-  goods       Goods?  @relation(fields: [goods_id], references: [id])
-  goods_id    Int?
+  goods       Good? @relation(fields: [good_id], references: [id])
+  good_id     Int?
 }
 
-model Stuff {
+model Staff {
   id          Int @default(autoincrement()) @id
   firstName   String
   lastName    String
@@ -43,7 +43,7 @@ model Stuff {
 model Duty {
   id          Int @id @default(autoincrement()) 
   task        String  @unique
-  stuff       Stuff[]
+  staff       Staff[]
 }
 
 model Supplier {
@@ -55,10 +55,10 @@ model Supplier {
   address     String   
 }
 
-model Sales {
+model Sale {
   id          Int @id @default(autoincrement()) 
   date        DateTime @default(now())
-  item        Goods? @relation(fields: [item_id], references: [id])
+  item        Good? @relation(fields: [item_id], references: [id])
   item_id     Int?
 }
 

@@ -1,21 +1,16 @@
+// @ts-check
 const { PrismaClient } = require("@prisma/client")
 
-const { goods } = new PrismaClient()
+const { good } = new PrismaClient()
 
 async function routes (fastify, options) {
 
     // list them all
     fastify.get('/goods', async (req, res) => {
-        const list = await goods.findMany({
-            select: {
-                id: true,
-                name: true,
-                type: true,
-                category: true,
-                ingridients: true,
-                sales: true,
-                price: true
-            }
+        const list = await good.findMany({
+						include: {
+							ingredients: true
+						}
         })
         
         res.send(list)
