@@ -7,11 +7,7 @@ async function routes (fastify, options) {
 
     // list them all
     fastify.get('/goods', async (req, res) => {
-        const list = await good.findMany({
-						include: {
-							ingredients: true
-						}
-        })
+        const list = await good.findMany({take: 100})
         
         res.send(list)
     })
@@ -20,7 +16,7 @@ async function routes (fastify, options) {
     fastify.post('/goods', async (req, res) => {
         let addGood = req.body;
 
-        const goodExists = await goods.findUnique({
+        const goodExists = await good.findUnique({
             where: {
                 name: addGood.name
             }
@@ -29,7 +25,7 @@ async function routes (fastify, options) {
         // check if the record exists based on the name param, which is unique
         // if it doesn't create a new one
         if(!goodExists){
-            let newGood = await goods.create({
+            let newGood = await good.create({
                 data: addGood
             })
 
