@@ -31,3 +31,24 @@ Ingredients: `/ingredients`
 Sales: `/sales`
 Staff: `/staff`
 Suppliers: `/supplier`
+
+## Examples
+
+Goods w/ ingredients:
+{
+    "name": "Ham & Cheese",
+    "type": "Sandwich",
+    "category": "Kitchen",
+    "price": 1.23,
+    "ingredients":[
+    	{
+    		"id": 6
+    	},
+    	{
+    		"id": 3
+    	},
+    	{
+    		"id": 8
+    	}
+    ]
+}

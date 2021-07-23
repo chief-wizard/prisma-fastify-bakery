@@ -7,7 +7,12 @@ async function routes (fastify, options) {
 
     // list them all
     fastify.get('/goods', async (req, res) => {
-        const list = await good.findMany({take: 100})
+        const list = await good.findMany({
+            take: 100,
+            include: {
+                ingredients: true
+            }
+        })
         
         res.send(list)
     })
@@ -26,7 +31,19 @@ async function routes (fastify, options) {
         // if it doesn't create a new one
         if(!goodExists){
             let newGood = await good.create({
-                data: addGood
+                data: {
+                    name: addGood.name,
+                    type: addGood.type,
+                    category: addGood.category,
+                    sales: addGood.sales,
+                    price: addGood.price,
+                    ingredients: {
+                        connect: addGood.ingredients,
+                   },
+                },
+                include: {
+                    ingredients: true
+                }
             })
 
             res.send(newGood);
