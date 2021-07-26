@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client")
-
 const { sales } = new PrismaClient()
 
 async function routes (fastify, options) {
@@ -10,10 +9,9 @@ async function routes (fastify, options) {
                 date: true,
                 item: true
             }
-        })
-        
+        })       
         res.send(list)
     })
-  }
+}
     
-  module.exports = routes
+module.exports = routes

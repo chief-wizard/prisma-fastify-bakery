@@ -10,14 +10,11 @@ async function routes (fastify, options) {
                 task: true,
                 stuff: true
             }
-        })
-        
+        })        
         res.send(list)
     })
 
     fastify.get('/duty/id/:dutyId', async(req, res) => {
-        // try it without parceInt to see what happens
-        //var dutyId = (req.params.dutyId)
         var dutyId = parseInt(req.params.dutyId)
 
         const list = await duty.findMany({
@@ -49,10 +46,8 @@ async function routes (fastify, options) {
         res.send(list)
     })
 
-    // send {"task":"Cleaning"}
     fastify.post('/duty', async(req, res) => {
         let taskExisits = req.body;
-        // findUnique only works for unique fields
         let record = await duty.findUnique({
             select: {
                 id: true,
@@ -66,10 +61,7 @@ async function routes (fastify, options) {
     
     fastify.post('/duty/add', async(req, res) => {
         let query = req.body;
-
-    
         let message = "Entry already exist"
-        // findUnique only works for unique fields
         let record = await duty.findUnique({
             select: {
                 id: true,
@@ -82,7 +74,6 @@ async function routes (fastify, options) {
         } 
         
         let newTask = await duty.create({data: query})
-
         res.send(newTask)        
     })
 }
