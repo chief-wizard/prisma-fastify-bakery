@@ -14,7 +14,7 @@ async function routes (fastify, options) {
         res.send(list)
     })
 
-    fastify.post('/products/create', async (req, res) => {
+    fastify.post('/product/create', async (req, res) => {
         let addProduct = req.body;
 
         const productExists = await product.findUnique({
