@@ -26,15 +26,15 @@ If you’d like your development environment to automatically load all plugins f
 Base URL: `http://localhost:3000`
 
 Duties: `/duty`
-Goods: `/goods`
+Products: `/products`
 Ingredients: `/ingredients`
 Sales: `/sales`
-Staff: `/staff`
+Employees: `/employees`
 Suppliers: `/supplier`
 
 ## Examples
 
-Goods w/ ingredients:
+Products w/ ingredients:
 {
     "name": "Ham & Cheese",
     "type": "Sandwich",

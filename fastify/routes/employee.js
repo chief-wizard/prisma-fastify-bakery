@@ -1,9 +1,9 @@
 const { PrismaClient } = require("@prisma/client")
-const { staff } = new PrismaClient()
+const { employee } = new PrismaClient()
 
 async function routes (fastify, options) {
-    fastify.get('/staff', async (req, res) => {
-        const list = await staff.findMany({
+    fastify.get('/employees', async (req, res) => {
+        const list = await employee.findMany({
             select: {
                 id: true,
                 firstName: true,

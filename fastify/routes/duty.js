@@ -8,7 +8,7 @@ async function routes (fastify, options) {
             select: {
                 id: true,
                 task: true,
-                stuff: true
+                employee: true
             }
         })        
         res.send(list)
@@ -21,7 +21,7 @@ async function routes (fastify, options) {
             select: {
                 id: true,
                 task: true,
-                stuff: true
+                employee: true
             },
             where: {
                 id: dutyId
@@ -37,7 +37,7 @@ async function routes (fastify, options) {
             select: {
                 id: true,
                 task: true,
-                stuff: true
+                employee: true
             },
             where: {
                task : taskName
@@ -52,7 +52,7 @@ async function routes (fastify, options) {
             select: {
                 id: true,
                 task: true,
-                stuff: true
+                employee: true
             },
             where: taskExisits
         })
