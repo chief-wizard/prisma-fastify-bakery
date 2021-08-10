@@ -1,28 +1,22 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 model Product {
-  id          Int @id @default(autoincrement()) 
-  name        String @unique
+  id          Int             @id @default(autoincrement())
+  name        String          @unique
   type        String
-  category    String
+  category    ProductCategory
   ingredients Ingredient[]
   sales       Sale[]
   price       Float
 }
 
+enum ProductCategory {
+  Cake
+  Drink
+  Food
+}
+
 model Ingredient {
-  id          Int @id @default(autoincrement()) 
-  name        String @unique
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
   allergen    Boolean
   vegan       Boolean
   vegetarian  Boolean
@@ -30,35 +24,32 @@ model Ingredient {
   products_id Int?
 }
 
-model Staff {
-  id          Int @default(autoincrement()) @id
-  firstName   String
-  lastName    String
-  role        String
-  duties      Duty[]    
+model Employee {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+  role      String
+  duties    Duty[]
 }
 
 model Duty {
-  id          Int @id @default(autoincrement()) 
-  task        String  @unique
-  staff       Staff[]
+  id        Int     @id @default(autoincrement())
+  task      String  @unique
+  completed Boolean @default(false)
+  staff     Employee[]
 }
 
 model Supplier {
-  id          Int @id @default(autoincrement())
-  name        String @unique
-  contact     String
-  email       String
-  phone_num   String
-  address     String   
+  id        Int    @id @default(autoincrement())
+  name      String @unique
+  contact   String
+  email     String
+  phone_num String
+  address   String
 }
 
 model Sale {
-  id          Int @id @default(autoincrement()) 
-  date        DateTime @default(now())
-  item        Product? @relation(fields: [item_id], references: [id])
-  item_id     Int?
+  id    Int       @id @default(autoincrement())
+  date  DateTime  @default(now())
+  items Product[]
 }
-
-
-
