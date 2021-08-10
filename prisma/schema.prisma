@@ -1,8 +1,17 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
 model Product {
   id          Int             @id @default(autoincrement())
   name        String          @unique
   type        String
-  category    ProductCategory
+  category    ProductCategory @default(Food)
   ingredients Ingredient[]
   sales       Sale[]
   price       Float
