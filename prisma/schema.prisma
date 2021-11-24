@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -11,16 +11,10 @@ model Product {
   id          Int             @id @default(autoincrement())
   name        String          @unique
   type        String
-  category    ProductCategory @default(Food)
+  category    String @default("Food")
   ingredients Ingredient[]
   sales       Sale[]
   price       Float
-}
-
-enum ProductCategory {
-  Cake
-  Drink
-  Food
 }
 
 model Ingredient {
