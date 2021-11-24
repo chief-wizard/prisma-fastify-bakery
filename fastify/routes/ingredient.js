@@ -11,8 +11,7 @@ async function routes (fastify, options) {
                 allergen: true,
                 vegan: true,
                 vegetarian: true,
-                products: true,
-                product_id: true
+                products: true
             }
         })
         res.send(ingredientsList)
@@ -40,7 +39,7 @@ async function routes (fastify, options) {
     fastify.put('/ingredients', async (req, res) => {
         let { id, name, type, allergen, vegan, vegetarian, products } = req.body;
 
-        const updatedProduct = await ingredient.update({
+        const updatedIngredient = await ingredient.update({
            where: {
             "id": id
            },
@@ -53,7 +52,7 @@ async function routes (fastify, options) {
                 products: products != null ? products : undefined,
            }
         })
-        res.send(updatedProduct);
+        res.send(updatedIngredient);
     })
 
     fastify.delete('/ingredients', async (req, res) => {
