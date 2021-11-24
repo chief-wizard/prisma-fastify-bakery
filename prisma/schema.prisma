@@ -14,7 +14,7 @@ model Product {
   category    String @default("Food")
   ingredients Ingredient[]
   sales       Sale[]
-  price       Float
+  price       Decimal
 }
 
 model Ingredient {
