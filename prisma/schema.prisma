@@ -11,10 +11,17 @@ model Product {
   id          Int             @id @default(autoincrement())
   name        String          @unique
   type        String
-  category    String @default("Food")
+  category    Category? @relation(fields: [category_id], references: [id])
+  category_id Int?
   ingredients Ingredient[]
   sales       Sale[]
   price       Decimal
+}
+
+model Category {
+  id          Int             @id @default(autoincrement())
+  name String @unique
+  products Product[]
 }
 
 model Ingredient {
@@ -23,8 +30,7 @@ model Ingredient {
   allergen    Boolean
   vegan       Boolean
   vegetarian  Boolean
-  products    Product? @relation(fields: [product_id], references: [id])
-  product_id Int?
+  products    Product[]
 }
 
 model Employee {
