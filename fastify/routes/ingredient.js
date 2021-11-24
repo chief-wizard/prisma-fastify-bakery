@@ -19,22 +19,22 @@ async function routes (fastify, options) {
     })
 
     fastify.post('/ingredients', async (req, res) => {
-        let addIngridient = req.body;
+        let addIngredient = req.body;
 
         const ingredientExists = await ingredient.findUnique({
             where: {
-                name: addIngridient.name
+                name: addIngredient.name
             }
         })
 
         if(!ingredientExists){
-            let newIngridient = await ingredient.create({
-                data: addIngridient
+            let newIngredient = await ingredient.create({
+                data: addIngredient
             })
 
-            res.send(newIngridient)
+            res.send(newIngredient)
         }
-        res.code(400).send({message: 'Ingridient already exists'})
+        res.code(400).send({message: 'Ingredient already exists'})
     })
 
     fastify.put('/ingredients', async (req, res) => {

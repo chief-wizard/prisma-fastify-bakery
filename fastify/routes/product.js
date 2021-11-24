@@ -47,7 +47,7 @@ async function routes (fastify, options) {
 
 
     fastify.put('/products', async (req, res) => {
-        let { id, name, type, category, ingridients, sales, price } = req.body;
+        let { id, name, type, category, ingredients, sales, price } = req.body;
 
         const updatedProduct = await product.update({
            where: {
@@ -57,7 +57,7 @@ async function routes (fastify, options) {
                 name: name != null ? name : undefined,
                 type: type != null ? type : undefined,
                 category: category != null ? category : undefined,
-                ingridients: ingridients != null ? ingridients : undefined,
+                ingredients: ingredients != null ? ingredients : undefined,
                 sales: sales != null ? sales : undefined,
                 price: price != null ? price : undefined,
            }
@@ -74,7 +74,7 @@ async function routes (fastify, options) {
         res.send(deletedProduct)
     })
 
-    fastify.post('/products/ingridients', async (req, res) => {
+    fastify.post('/products/ingredients', async (req, res) => {
         let productsData = req.body;
 
         let productToUpdate = await product.update({
@@ -82,18 +82,18 @@ async function routes (fastify, options) {
                 id: productsData.id
             },
             data: {
-                ingridients: {
-                    connect: productsData.ingridients
+                ingredients: {
+                    connect: productsData.ingredients
                 }
             },
             include: {
-                ingridients: true
+                ingredients: true
             }
         })
         res.send(productToUpdate);
     })
 
-    fastify.delete('/products/ingridients', async (req, res) => {
+    fastify.delete('/products/ingredients', async (req, res) => {
         let productsData = req.body;
 
         let productToDelete = await product.update({
@@ -101,12 +101,12 @@ async function routes (fastify, options) {
                 id: productsData.id
             },
             data: {
-                ingridients: {
-                    disconnect: productsData.ingridients
+                ingredients: {
+                    disconnect: productsData.ingredients
                 }
             },
             include: {
-                ingridients: true
+                ingredients: true
             }
         })
         res.send(productToDelete);
