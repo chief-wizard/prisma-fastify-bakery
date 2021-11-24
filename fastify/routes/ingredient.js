@@ -12,7 +12,7 @@ async function routes (fastify, options) {
                 vegan: true,
                 vegetarian: true,
                 products: true,
-                products_id: true
+                product_id: true
             }
         })
         res.send(ingredientsList)

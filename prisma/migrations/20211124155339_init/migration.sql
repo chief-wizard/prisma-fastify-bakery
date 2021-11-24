@@ -17,7 +17,7 @@ CREATE TABLE `Ingredient` (
     `allergen` BOOLEAN NOT NULL,
     `vegan` BOOLEAN NOT NULL,
     `vegetarian` BOOLEAN NOT NULL,
-    `products_id` INTEGER NULL,
+    `product_id` INTEGER NULL,
 
     UNIQUE INDEX `Ingredient_name_key`(`name`),
     PRIMARY KEY (`id`)
@@ -83,7 +83,7 @@ CREATE TABLE `_DutyToEmployee` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Ingredient` ADD CONSTRAINT `Ingredient_products_id_fkey` FOREIGN KEY (`products_id`) REFERENCES `Product`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Ingredient` ADD CONSTRAINT `Ingredient_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `Product`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_ProductToSale` ADD FOREIGN KEY (`A`) REFERENCES `Product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

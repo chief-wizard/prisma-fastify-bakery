@@ -29,8 +29,8 @@ model Ingredient {
   allergen    Boolean
   vegan       Boolean
   vegetarian  Boolean
-  products    Product? @relation(fields: [products_id], references: [id])
-  products_id Int?
+  products    Product? @relation(fields: [product_id], references: [id])
+  product_id Int?
 }
 
 model Employee {
