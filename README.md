@@ -7,6 +7,22 @@ and [Fastify](https://www.fastify.io).
 
 A SQLite database is used and will be created in the `prisma` subdirectory when the schema is first migrated.
 
+## Installation
+
+This code has been tested with Node.js version 14.
+
+To install the application, clone this repository and run:
+
+	npm install
+
+## Type checking in VSCode
+
+I recommend using type Visual Studio Code with this repository.  You'll see the 
+
+	// @ts-check
+
+Comment at the beginning of some files - this enables type checking and will help you to make sure your Prisma models and types are used correctly.
+
 ## Running the app
 
 1. Build the database schema:
@@ -61,9 +77,17 @@ Products w/ ingredients returned from `/products`:
 
 ## Paginated search API endpoints the app exposes
 
-Search for products or products with ingredients' name matching query: `/search/products/:query/:page/:count`
+Search for products or products with ingredients' name matching a searched string: `/search/products/:searchString/:page/:count`
 
 ## Paginated search API endpoint example
+
+Searching for suppliers by name:
+
+`/search/suppliers/:searchString/:page/:count`
+
+Searching for suppliers with name containing the string 'shop' (page 1, 3 results per page): 
+
+`/search/suppliers/shop/1/3`
 
 Searching for products, or products with ingredients containing the string 'choc' (page 1, 3 results per page): 
 

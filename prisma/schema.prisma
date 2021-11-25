@@ -31,6 +31,8 @@ model Ingredient {
   vegan       Boolean
   vegetarian  Boolean
   products    Product[]
+  supplier    Supplier? @relation(fields: [supplier_id], references: [id])
+  supplier_id Int?
 }
 
 model Employee {
@@ -55,6 +57,7 @@ model Supplier {
   email     String
   phone_num String
   address   String
+  ingredients Ingredient[]
 }
 
 model Sale {

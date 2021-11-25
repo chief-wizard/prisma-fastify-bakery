@@ -1,12 +1,36 @@
 // @ts-check
 const { PrismaClient } = require("@prisma/client");
-const { product } = new PrismaClient();
+const { supplier, product } = new PrismaClient();
 
 async function routes (fastify, options) {
 
-    fastify.get('/search/products/:query/:page/:count', async (req, res) => {
+    fastify.get('/search/suppliers/:searchString/:page/:count', async (req, res) => {
         
-        let { query, page, count } = req.params;
+        let { searchString, page, count } = req.params;
+        
+        page = (parseInt(page) - 1) ?? 0;
+        count = parseInt(count) ?? 5;
+
+        const list = await supplier.findMany({
+            skip: (page * count), 
+            take: count,
+            where: {
+                    name: {
+                        contains: searchString
+                    }
+            },
+            include: {
+                ingredients: true
+            }
+        });
+
+        res.send(list);
+        
+    });
+
+    fastify.get('/search/products/:searchString/:page/:count', async (req, res) => {
+        
+        let { searchString, page, count } = req.params;
         
         page = (parseInt(page) - 1) ?? 0;
         count = parseInt(count) ?? 5;
@@ -18,14 +42,14 @@ async function routes (fastify, options) {
                 OR:[
                     {
                         name: {
-                            contains: query
+                            contains: searchString
                         }
                     },
                     {
                         ingredients: {
                             some:{
                                 name: {
-                                    contains: query,
+                                    contains: searchString,
                                 }
                             }
                         }
