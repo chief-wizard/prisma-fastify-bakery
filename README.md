@@ -5,7 +5,7 @@ and [Fastify](https://www.fastify.io).
 
 ## Database setup
 
-A SQLite database is used and will be created in the prisma subdirectory when the schema is first migrated.
+A SQLite database is used and will be created in the `prisma` subdirectory when the schema is first migrated.
 
 ## Running the app
 
@@ -38,7 +38,7 @@ Suppliers: `/supplier`
 
 ## REST API endpoint example
 
-Products w/ ingredients returned from /products:
+Products w/ ingredients returned from `/products`:
 
 	[
 		{
@@ -73,4 +73,4 @@ Searching for products, or products with ingredients containing the string 'choc
 
 http://localhost:3000/search/products/chocolate%20muffin/1/3
 
-Results JSON format will match that returned from the /products route.
+Results JSON format will match that returned from the `/products` route.
