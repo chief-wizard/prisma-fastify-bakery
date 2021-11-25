@@ -67,10 +67,10 @@ Search for products or products with ingredients' name matching query: `/search/
 
 Searching for products, or products with ingredients containing the string 'choc' (page 1, 3 results per page): 
 
-http://localhost:3000/search/products/choc/1/3
+`/search/products/choc/1/3`
 
 Searching for products, or products with ingredients containing the string 'chocolate muffin' (page 1, 3 results per page): 
 
-http://localhost:3000/search/products/chocolate%20muffin/1/3
+`/search/products/chocolate%20muffin/1/3`
 
 Results JSON format will match that returned from the `/products` route.
