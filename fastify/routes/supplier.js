@@ -1,20 +1,27 @@
-const { PrismaClient } = require("@prisma/client")
-const { supplier } = new PrismaClient()
+// This file demonstrates retrieving all records for a model/table from a database using Prisma
 
-async function routes (fastify, options) {
+// @ts-check
+
+const { PrismaClient } = require("@prisma/client");
+const { supplier } = new PrismaClient();
+
+/**
+ * Returns the Fastify Routes made available in this file
+ * @param {*} fastify 
+ * @param {*} options 
+ */
+async function routes(fastify, options) {
+
+    // Route for retrieving a list of all suppliers
     fastify.get('/supplier', async (req, res) => {
-        const list = await supplier.findMany({
-            select: {
-                id: true,
-                name: true,
-                contact: true,
-                email: true,
-                phone_num: true,
-                address: true
-            }
-        })       
-        res.send(list)
-    })
+
+        // Retrieve all suppliers using findMany()
+        let list = await supplier.findMany();
+
+        // Send the response
+        res.send(list);
+
+    });
 }
-    
-module.exports = routes
+
+module.exports = routes;

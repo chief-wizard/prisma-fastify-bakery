@@ -1,67 +1,77 @@
+// This file defines the database settings and schema which Prisma will use
+// https://www.prisma.io/docs/concepts/components/prisma-schema#comments
+
+// Configure the database connection which Prisma will use
+// https://www.prisma.io/docs/concepts/components/prisma-schema/data-sources/
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
+// Define the Prisma client which will be generated when `prisma generate` is run
+// https://www.prisma.io/docs/concepts/components/prisma-schema/generators
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
+
+// Below are the Prisma data model definitions for each type of object we wish to define and store in the database
+// https://www.prisma.io/docs/concepts/components/prisma-schema/data-model
 
 model Product {
-  id          Int             @id @default(autoincrement())
-  name        String          @unique
-  type        String
-  category    Category? @relation(fields: [category_id], references: [id])
-  category_id Int?
-  ingredients Ingredient[]
-  sales       Sale[]
-  price       Decimal
+    id          Int             @id @default(autoincrement())
+    name        String          @unique
+    type        String?
+    category    Category? @relation(fields: [category_id], references: [id])
+    category_id Int?
+    ingredients Ingredient[]
+    sales       Sale[]
+    price       Decimal
 }
 
 model Category {
-  id          Int             @id @default(autoincrement())
-  name String @unique
-  products Product[]
+    id          Int             @id @default(autoincrement())
+    name String @unique
+    products Product[]
 }
 
 model Ingredient {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  allergen    Boolean
-  vegan       Boolean
-  vegetarian  Boolean
-  products    Product[]
-  supplier    Supplier? @relation(fields: [supplier_id], references: [id])
-  supplier_id Int?
+    id          Int      @id @default(autoincrement())
+    name        String   @unique
+    allergen    Boolean
+    vegan       Boolean
+    vegetarian  Boolean
+    products    Product[]
+    supplier    Supplier? @relation(fields: [supplier_id], references: [id])
+    supplier_id Int?
 }
 
 model Employee {
-  id        Int    @id @default(autoincrement())
-  firstName String
-  lastName  String
-  role      String
-  duties    Duty[]
+    id        Int    @id @default(autoincrement())
+    firstName String
+    lastName  String
+    role      String
+    duties    Duty[]
 }
 
 model Duty {
-  id        Int     @id @default(autoincrement())
-  task      String  @unique
-  completed Boolean @default(false)
-  employee  Employee[]
+    id        Int     @id @default(autoincrement())
+    task      String  
+    completed Boolean @default(false)
+    employee  Employee[]
 }
 
 model Supplier {
-  id        Int    @id @default(autoincrement())
-  name      String @unique
-  contact   String
-  email     String
-  phone_num String
-  address   String
-  ingredients Ingredient[]
+    id        Int    @id @default(autoincrement())
+    name      String @unique
+    contact   String
+    email     String
+    phone_num String
+    address   String
+    ingredients Ingredient[]
 }
 
 model Sale {
-  id    Int       @id @default(autoincrement())
-  date  DateTime  @default(now())
-  items Product[]
+    id    Int       @id @default(autoincrement())
+    date  DateTime  @default(now())
+    products        Product[]
 }
