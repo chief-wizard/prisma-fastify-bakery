@@ -13,7 +13,7 @@ const { supplier } = new PrismaClient();
 async function routes(fastify, options) {
 
     // Route for retrieving a list of all suppliers
-    fastify.get('/supplier', async (req, res) => {
+    fastify.get('/suppliers', async (req, res) => {
 
         // Retrieve all suppliers using findMany()
         let list = await supplier.findMany();

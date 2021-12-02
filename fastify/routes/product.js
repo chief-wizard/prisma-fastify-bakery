@@ -28,7 +28,7 @@ async function routes(fastify, options) {
     });
 
     // Route to create a new product
-    fastify.post('/product', async (req, res) => {
+    fastify.post('/products', async (req, res) => {
 
         // Assign the POST request body to a new product
         let addProduct = req.body;
@@ -41,7 +41,7 @@ async function routes(fastify, options) {
         });
 
         // If the product does not exist, create it in the database with Prisma
-        // Related ingredients are created with the connect statement
+        // Related ingredients are created or connected with the connectOrCreate statement
         if (!productExists) {
 
             let newProduct = await product.create({
@@ -52,7 +52,17 @@ async function routes(fastify, options) {
                     sales: addProduct.sales,
                     price: addProduct.price,
                     ingredients: {
-                        connect: addProduct.ingredients,
+                        // This section will add multiple ingredients from the request by looping through them
+                        connectOrCreate: addProduct.ingredients.map((ingredient) =>{
+
+                            return {
+                                where:{
+                                    name: ingredient.name
+                                },
+                                create: ingredient
+                            }
+
+                        })
                     },
                 },
                 include: {
@@ -87,7 +97,6 @@ async function routes(fastify, options) {
                 name: name != null ? name : undefined,
                 type: type != null ? type : undefined,
                 category: category != null ? category : undefined,
-                ingredients: ingredients != null ? ingredients : undefined,
                 sales: sales != null ? sales : undefined,
                 price: price != null ? price : undefined,
             }
@@ -114,20 +123,23 @@ async function routes(fastify, options) {
 
     });
 
-    // Route to update a product with new ingredients
-    fastify.post('/products/ingredients', async (req, res) => {
+    // Route to update a product by adding new ingredients
+    fastify.post('/products/:productId/ingredients', async (req, res) => {
+
+        // Retrieve the id of the ingredient to be updated from the request URL parameters
+        let productId = parseInt(req.params.productId);
 
         // Retrieve the data from the POST request body
-        let productsData = req.body;
+        let newIngredients = req.body;
 
-        // Connect the product with the ingredients specified in productsData - they will be created if they do not exist
+        // Connect the product with the ingredients specified in productsData - this will only connect existing ingredients!
         let productToUpdate = await product.update({
             where: {
-                id: productsData.id
+                id: productId
             },
             data: {
                 ingredients: {
-                    connect: productsData.ingredients
+                    connect: newIngredients
                 }
             },
             include: {
@@ -140,18 +152,22 @@ async function routes(fastify, options) {
     });
 
     // Route to remove ingredients from a product
-    fastify.delete('/products/ingredients', async (req, res) => {
+    fastify.delete('/products/:productId/ingredients', async (req, res) => {
 
-        let productsData = req.body;
+        // Retrieve the id of the ingredient to be updated from the request URL parameters
+        let productId = parseInt(req.params.productId);
+
+        // Retrieve the data from the POST request body
+        let removeIngredients = req.body;
 
         // Disconnect the product from the ingredients specified in ProductsData
         let productToDelete = await product.update({
             where: {
-                id: productsData.id
+                id: productId
             },
             data: {
                 ingredients: {
-                    disconnect: productsData.ingredients
+                    disconnect: removeIngredients
                 }
             },
             include: {

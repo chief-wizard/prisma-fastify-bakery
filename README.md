@@ -69,9 +69,11 @@ Sales: `/sales`
 
 Employees: `/employees`
 
-Suppliers: `/supplier`
+Suppliers: `/suppliers`
 
 *Note that not all Prisma objects have a full CRUD endpoint, depending on what is being demonstrated.  If they do not, run `npx prisma studio` to launch the Prisma Studio which will allow you to add and edit records.*
+
+When loaded, Fastify will print a complete list of routes including the path and HTTP method to the console as they are loaded.
 
 ## REST API endpoint example
 
