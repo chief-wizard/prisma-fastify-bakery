@@ -1,81 +1,65 @@
-const { PrismaClient } = require("@prisma/client")
+// This file demonstrates finding records based on Prisma filter criteria
 
-const { duty } = new PrismaClient()
+// @ts-check
 
-async function routes (fastify, options) {
-    fastify.get('/duty', async (req, res) => {
-        const list = await duty.findMany({
-            select: {
-                id: true,
-                task: true,
-                employee: true
-            }
-        })        
-        res.send(list)
-    })
+const { PrismaClient } = require("@prisma/client");
+const { duty } = new PrismaClient();
 
-    fastify.get('/duty/id/:dutyId', async(req, res) => {
-        var dutyId = parseInt(req.params.dutyId)
+/**
+ * Returns the Fastify Routes made available in this file
+ * @param {*} fastify 
+ * @param {*} options 
+ */
+async function routes(fastify, options) {
 
-        const list = await duty.findMany({
-            select: {
-                id: true,
-                task: true,
-                employee: true
-            },
+    // Route to list all duties
+    fastify.get('/duties', async (req, res) => {
+
+        // Retrieve all duty records from Prisma
+        let list = await duty.findMany();
+
+        // Send the response
+        res.send(list);
+
+    });
+
+    // Route to retrieve a single duty by ID
+    fastify.get('/duties/:dutyId', async (req, res) => {
+
+        // Extract the dutyId from the request parameters
+        let dutyId = parseInt(req.params.dutyId);
+
+        // Retrieve single duty by unique ID
+        let list = await duty.findUnique({
             where: {
                 id: dutyId
-            }
-        })
-        res.send(list)
-    })
-
-    fastify.get('/duty/task/:taskName', async(req, res) => {
-        var taskName = req.params.taskName
-
-        const list = await duty.findMany({
-            select: {
-                id: true,
-                task: true,
-                employee: true
             },
+            include:{
+                employee: true
+            }
+        });
+
+        res.send(list);
+
+    });
+
+    // Route to find duties by task name which are incomplete
+    fastify.get('/duties/task/:taskName', async (req, res) => {
+
+        // Retrieve the task name to search from the request
+        let taskName = req.params.taskName;
+
+        // Find duties with a matching task which are not complete
+        let list = await duty.findMany({
             where: {
-               task : taskName
+                task: taskName,
+                completed: false
             }
-        })
-        res.send(list)
-    })
+        });
 
-    fastify.post('/duty', async(req, res) => {
-        let taskExisits = req.body;
-        let record = await duty.findUnique({
-            select: {
-                id: true,
-                task: true,
-                employee: true
-            },
-            where: taskExisits
-        })
-        res.send(record)
-    })
-    
-    fastify.post('/duty/add', async(req, res) => {
-        let query = req.body;
-        let message = "Entry already exist"
-        let record = await duty.findUnique({
-            select: {
-                id: true,
-            },
-            where: query
-        })
- 
-        if (record){
-            res.code(400).send({message: 'record already exists'})
-        } 
-        
-        let newTask = await duty.create({data: query})
-        res.send(newTask)        
-    })
+        res.send(list);
+    });
+
 }
-    
-module.exports = routes
+
+module.exports = routes;

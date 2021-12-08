@@ -1,9 +1,0 @@
--- AlterTable
-ALTER TABLE `Duty` MODIFY `stuff_id` INTEGER;
-
--- AlterTable
-ALTER TABLE `Sales` ADD COLUMN `item_id` INTEGER,
-    MODIFY `date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
-
--- AddForeignKey
-ALTER TABLE `Sales` ADD FOREIGN KEY (`item_id`) REFERENCES `goods`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
